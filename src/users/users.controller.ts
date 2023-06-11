@@ -67,7 +67,7 @@ export class UsersController {
     @Put("/update")
     @UseInterceptors(FileInterceptor("image"))
     updateUserAvatar(@Req() request,@UploadedFile()image){
-        const token=request.headers.Authorization
+        const token=request.headers.authorization
         return this.usersService.updateUserAvatar(this.getUserIdASToken(token),image)
     }
 
