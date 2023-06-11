@@ -10,7 +10,6 @@ import { ObjectId } from 'bson';
 export class UsersService {
     constructor(@InjectModel(User.name) private userModel: Model<userDocument>, private filesService: FilesService) {
     }
-
     async createUser(user: UserDto): Promise<User> {
         const newUser = new this.userModel(user)
         return newUser.save()

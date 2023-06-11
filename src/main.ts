@@ -2,11 +2,10 @@ import * as process from "process";
 import {NestFactory} from "@nestjs/core";
 import {AppModule} from "./app.module";
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
-import {IoAdapter} from "@nestjs/platform-socket.io";
-import * as http from "http";
-import * as socketio from "socket.io"
+import * as dotenv from 'dotenv';
 async function start() {
-    const PORT = process.env.PORT || 3001
+    dotenv.config();
+    const PORT = process.env.DB_PORT || 3001
     const app = await NestFactory.create(AppModule)
 
     const config = new DocumentBuilder()
