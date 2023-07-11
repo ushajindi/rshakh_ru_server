@@ -1,6 +1,5 @@
 import {Body, Controller, Get, Param, Post, UseGuards} from '@nestjs/common';
 import {ChatService} from "./chat.service";
-import {userChatDto} from "../dto/create-user.dto";
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 import {MessageBody, SubscribeMessage, WebSocketGateway} from "@nestjs/websockets";
 import * as jwt from "jsonwebtoken";
@@ -23,8 +22,8 @@ export class ChatController {
     }
 
     @Post("/create")
-    createChat(@Body() chat:userChatDto){
-       return  this.chatService.createChat(chat)
+    async createChat(@Body() id){
+       return  await this.chatService.createChat(id)
     }
     @UseGuards(JwtAuthGuard)
     @Get("/:id")

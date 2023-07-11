@@ -15,12 +15,12 @@ export class UsersService {
         return newUser.save()
     }
 
-    async findUser(_id) {
+    async findUser(_id:string) {
        return this.userModel.findById({_id})
     }
 
-    async findAllUsers() {
-        return this.userModel.find({})
+    async getAllUsers(_id:string) {
+        return this.userModel.find({_id: { $ne: _id }}).select("-password")
     }
 
     async getByEmail(email: string) {
@@ -31,13 +31,14 @@ export class UsersService {
     async updateUserAvatar(_id: any,image): Promise<any> {
         const fileName= await this.filesService.createFile(image)
         if (ObjectId.isValid(_id)) {
-            return this.userModel.updateOne({ "_id": new ObjectId(_id) }, { $set: { "avaimg": fileName } });
+            await this.userModel.updateOne({ "_id": new ObjectId(_id) }, { $set: { "avaimg": fileName } });
+            return await this.userModel.findById(_id)
         } else {
             return  new Error("Invalid _id"); // Обрабатывайте случай некорректного _id
         }
     }
 
-    async userOnline(_id,online){
+    async userOnline(_id:string,online:boolean){
         if (ObjectId.isValid(_id)) {
          return this.userModel.updateOne({"_id":new ObjectId(_id)},{$set:{"online":online}})
     } else {

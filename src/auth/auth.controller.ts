@@ -8,9 +8,8 @@ export class AuthController {
     constructor(private authService:AuthService) {
     }
     @Post("/login")
-    login(@Body()userDto:LoginUserDto){
-
-        return this.authService.login(userDto)
+     async login(@Body()userDto:LoginUserDto){
+        return await this.authService.login(userDto)
     }
 
     @Post("/registration")

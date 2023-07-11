@@ -58,15 +58,23 @@ export class UsersController {
 
     @UseGuards(JwtAuthGuard)
     @Get('/all')
-    getAll(){
-        return this.usersService.findAllUsers()
+    getAll(@Req() request,){
+        const token=request.headers.authorization
+        return this.usersService.getAllUsers(this.getUserIdASToken(token))
+    }
+    @UseGuards(JwtAuthGuard)
+    @Get('/profile')
+    getProfile(@Req() request,){
+        const token=request.headers.authorization
+        return this.usersService.findUser(this.getUserIdASToken(token))
     }
 
 
    @UseGuards(JwtAuthGuard)
-    @Put("/update")
+    @Put("/update-image")
     @UseInterceptors(FileInterceptor("image"))
     updateUserAvatar(@Req() request,@UploadedFile()image){
+        console.log(image)
         const token=request.headers.authorization
         return this.usersService.updateUserAvatar(this.getUserIdASToken(token),image)
     }

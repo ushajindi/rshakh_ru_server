@@ -18,20 +18,3 @@ export class LoginUserDto{
     email:string
     password:string
 }
-export class userChatDto{
-    _id:string
-    users:[
-        username:string,
-        userId:string,
-        email:string,
-        avaimg:string
-    ]
-    messages:[
-        username:string,
-        avaimg:string,
-        message:string,
-        img:[
-            src:string
-        ]
-    ]
-}
