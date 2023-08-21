@@ -5,6 +5,7 @@ import {UsersController} from "./users.controller";
 import {UsersService} from "./users.service";
 import {AuthModule} from "../auth/auth.module";
 import {FilesModule} from "../files/files.module";
+import { AppGeteway } from 'src/chat/app.gateway';
 
 @Module({
     controllers:[UsersController],

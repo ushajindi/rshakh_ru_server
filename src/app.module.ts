@@ -5,7 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { ChatModule } from './chat/chat.module';
 import { FilesModule } from './files/files.module';
 import {ServeStaticModule} from "@nestjs/serve-static";
-import { AppGeteway } from './app/app.gateway';
+import { AppGeteway } from './chat/app.gateway';
 import * as path from "path";
 
 
@@ -17,7 +17,7 @@ import * as path from "path";
 
         ,AuthModule, ChatModule, FilesModule],
     controllers: [],
-    providers: [AppGeteway],
+    providers: [],
 })
 export class AppModule {
 }

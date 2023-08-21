@@ -24,7 +24,6 @@ dotenv.config();
 export class UsersController {
     constructor(private usersService: UsersService) {
     }
-
     getUserIdASToken(token:string):string{
         const tokenWithoutBearer = token.replace('Bearer ', '');
         try {
@@ -36,6 +35,11 @@ export class UsersController {
         }
 
     }
+    @Get('user/findemail/:_email')
+    async findEmail(@Param() {_email}){
+        return await this.usersService.findEmail(_email)
+     }
+
     @UseGuards(JwtAuthGuard)
     @Get('/user/profile')
     GetUserProfile(@Req() request) {
@@ -60,7 +64,7 @@ export class UsersController {
     @Get('/all')
     getAll(@Req() request,){
         const token=request.headers.authorization
-        return this.usersService.getAllUsers(this.getUserIdASToken(token))
+        return this.usersService.getAllUsersNoMe(this.getUserIdASToken(token))
     }
     @UseGuards(JwtAuthGuard)
     @Get('/profile')

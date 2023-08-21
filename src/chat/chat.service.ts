@@ -5,7 +5,7 @@ import {Chat, chatDocument} from "../schemas/chat.schema";
 import {ObjectId} from "bson";
 import { Message, MessageDocument } from 'src/schemas/message.schema';
 import { User, userDocument } from 'src/schemas/user.schema';
-import { UsersController } from 'src/users/users.controller';
+//import { AppGeteway } from 'src/app/app.gateway';
 
 @Injectable()
 export class ChatService {
@@ -13,12 +13,13 @@ export class ChatService {
         @InjectModel(Chat.name) private chatModel: Model<chatDocument>,
         @InjectModel(Message.name) private messageModel: Model<MessageDocument>,
         @InjectModel(User.name) private userModel: Model<userDocument>,
+        //private AppGeteway:AppGeteway,
       ) {}
 
-    async createChat(usersids){
+    async createChat(ids){
         let users=[]
         await Promise.all(
-            usersids.map(async (id) => {
+            ids.map(async (id) => {
               const user = await this.userModel.findById(id).select('-password');
               if (user) {
                 users.push(user);
@@ -26,22 +27,24 @@ export class ChatService {
             })
           ); 
           const chat=await this.chatModel.create({users:users})
-       return chat.save()
+          if(chat.save()){
+            return chat
+          }
+       return false
     }
     async addMessage(date:string,userid,chatId,message:string,files:[]|null){
-        const user=await this.userModel.findById(userid).select("-password")
-        if(user){
            const addmessage =await this.messageModel.create({
                 chatId,
-                user,
+                user:userid,
                 message,
-                date
+                date,
+                files
             })
             return addmessage.save()
-        } else{
-            return "ошибка при сохранения сообщении"
-        }
-        
+    }
+
+    async findMessage(id){
+      return await this.messageModel.find({chatId:id})
     }
 
     async findChats(userId){
@@ -51,8 +54,6 @@ export class ChatService {
                 const filteredUsers = el.users.filter((user:any) => user._id.toString() !== userId);
                 return { ...el.toObject(), users: filteredUsers[0] };
               });
-              
-              console.log(filteredChats);
               return filteredChats;
               
             return chats;

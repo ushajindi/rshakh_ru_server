@@ -18,9 +18,18 @@ export class UsersService {
     async findUser(_id:string) {
        return this.userModel.findById({_id})
     }
+    async findEmail(email:string){
+        const e=await this.userModel.find({email})
+        if(e.length != 0){
+            return false
+        } else return true
+    }
 
-    async getAllUsers(_id:string) {
+    async getAllUsersNoMe(_id:string) {
         return this.userModel.find({_id: { $ne: _id }}).select("-password")
+    }
+    async getAllUsers(){
+        return this.userModel.find({}).select("-password")
     }
 
     async getByEmail(email: string) {

@@ -7,9 +7,10 @@ import { Chat, ChatSchema } from '../schemas/chat.schema';
 import { AuthModule } from '../auth/auth.module';
 import { UsersModule } from '../users/users.module';
 import { Message, MessageSchema } from '../schemas/message.schema';
+import { AppGeteway } from 'src/chat/app.gateway';
 
 @Module({
-  providers: [ChatService],
+  providers: [ChatService,AppGeteway],
   controllers: [ChatController],
   imports: [
     MongooseModule.forFeature([

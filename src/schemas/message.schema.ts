@@ -9,12 +9,12 @@ export type MessageDocument = Message & Document;
 export class Message {
   @Prop()
   chatId: string;
-  @Prop({type:User})
-  user:userDocument
+  @Prop()
+  user:string
   @Prop()
   message:string
   @Prop()
-  data:string
+  date:string
   @Prop()
   files:[]
 }
